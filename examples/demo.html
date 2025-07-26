@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Universal Asymmetric Cryptography - Browser Example</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        color: #333;
+      }
+
+      .container {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        color: #2d3748;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: #718096;
+        margin-bottom: 30px;
+        font-size: 16px;
+      }
+
+      .demo-section {
+        margin: 25px 0;
+        padding: 20px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        background: #f7fafc;
+      }
+
+      .demo-section h3 {
+        margin-top: 0;
+        color: #2d3748;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .status {
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: 500;
+        font-size: 14px;
+      }
+
+      .status.pending {
+        background: #fed7d7;
+        color: #c53030;
+      }
+
+      .status.success {
+        background: #c6f6d5;
+        color: #2f855a;
+      }
+
+      .status.error {
+        background: #fed7d7;
+        color: #c53030;
+      }
+
+      .output {
+        background: #1a202c;
+        color: #e2e8f0;
+        padding: 15px;
+        border-radius: 6px;
+        font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas,
+          "Courier New", monospace;
+        font-size: 13px;
+        line-height: 1.5;
+        margin: 10px 0;
+        white-space: pre-wrap;
+        overflow-x: auto;
+      }
+
+      button {
+        background: #4299e1;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 14px;
+        transition: background 0.2s;
+      }
+
+      button:hover {
+        background: #3182ce;
+      }
+
+      button:disabled {
+        background: #a0aec0;
+        cursor: not-allowed;
+      }
+
+      .performance-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin: 15px 0;
+      }
+
+      .stat-card {
+        background: white;
+        padding: 15px;
+        border-radius: 6px;
+        border-left: 4px solid #4299e1;
+      }
+
+      .stat-label {
+        font-size: 12px;
+        color: #718096;
+        margin-bottom: 5px;
+      }
+
+      .stat-value {
+        font-size: 20px;
+        font-weight: 600;
+        color: #2d3748;
+      }
+
+      .compatibility-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 10px;
+        margin: 15px 0;
+      }
+
+      .compat-item {
+        text-align: center;
+        padding: 10px;
+        border-radius: 6px;
+        background: white;
+        border: 1px solid #e2e8f0;
+      }
+
+      .compat-icon {
+        font-size: 24px;
+        margin-bottom: 5px;
+      }
+
+      .compat-label {
+        font-size: 12px;
+        color: #4a5568;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🔐 Universal Asymmetric Cryptography</h1>
+      <p class="subtitle">Browser Demo - Web Crypto API Implementation</p>
+
+      <div class="demo-section">
+        <h3>🌍 Platform Compatibility</h3>
+        <div class="compatibility-grid">
+          <div class="compat-item">
+            <div class="compat-icon">🌐</div>
+            <div class="compat-label">Browsers</div>
+          </div>
+          <div class="compat-item">
+            <div class="compat-icon">⚡</div>
+            <div class="compat-label">CF Workers</div>
+          </div>
+          <div class="compat-item">
+            <div class="compat-icon">🦕</div>
+            <div class="compat-label">Deno</div>
+          </div>
+          <div class="compat-item">
+            <div class="compat-icon">🟢</div>
+            <div class="compat-label">Node.js</div>
+          </div>
+          <div class="compat-item">
+            <div class="compat-icon">🥟</div>
+            <div class="compat-label">Bun</div>
+          </div>
+          <div class="compat-item">
+            <div class="compat-icon">👷</div>
+            <div class="compat-label">Web Workers</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <h3>📦 Installation</h3>
+        <div class="output">
+          <pre><code>npm install asymmetric-cryptography-data-exchange-utils</code></pre>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <h3>🚀 Basic Usage</h3>
+        <div class="output">
+          <pre><code>// Node.js / ES Modules
+import { createKeys, encryptWithPubKey, decryptWithPrivateKey } from 'asymmetric-cryptography-data-exchange-utils';
+
+// Generate key pair
+const keys = await createKeys();
+
+// Encrypt with public key
+const encrypted = await encryptWithPubKey("Hello World!", keys.publicKey);
+
+// Decrypt with private key
+const decrypted = await decryptWithPrivateKey(encrypted, keys.privateKey);
+
+// Browser (CDN)
+import { createKeys } from 'https://esm.sh/asymmetric-cryptography-data-exchange-utils';
+
+// PEM String API
+import { createKeysPEM, encryptWithPubKeyPEM, decryptWithPrivateKeyPEM } from 'asymmetric-cryptography-data-exchange-utils';
+
+const pemKeys = await createKeysPEM();
+const encrypted = await encryptWithPubKeyPEM("Hello!", pemKeys.publicKey);
+const decrypted = await decryptWithPrivateKeyPEM(encrypted, pemKeys.privateKey);</code></pre>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <h3>
+          🔑 Key Generation
+          <span id="keygen-status" class="status pending">Pending</span>
+        </h3>
+        <button onclick="runKeyGeneration()" id="keygen-btn">
+          Generate RSA Key Pairs
+        </button>
+        <div id="keygen-output" class="output" style="display: none"></div>
+      </div>
+
+      <div class="demo-section">
+        <h3>
+          🔒 CryptoKey API Demo
+          <span id="cryptokey-status" class="status pending">Pending</span>
+        </h3>
+        <button onclick="runCryptoKeyDemo()" id="cryptokey-btn" disabled>
+          Test CryptoKey Encryption
+        </button>
+        <div id="cryptokey-output" class="output" style="display: none"></div>
+      </div>
+
+      <div class="demo-section">
+        <h3>
+          📜 PEM API Demo
+          <span id="pem-status" class="status pending">Pending</span>
+        </h3>
+        <button onclick="runPEMDemo()" id="pem-btn" disabled>
+          Test PEM Encryption
+        </button>
+        <div id="pem-output" class="output" style="display: none"></div>
+      </div>
+
+      <div class="demo-section">
+        <h3>
+          ⚡ Performance Test
+          <span id="perf-status" class="status pending">Pending</span>
+        </h3>
+        <button onclick="runPerformanceTest()" id="perf-btn" disabled>
+          Run Performance Test
+        </button>
+        <div class="performance-stats" id="perf-stats" style="display: none">
+          <div class="stat-card">
+            <div class="stat-label">Key Generation</div>
+            <div class="stat-value" id="keygen-time">-</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Encryption</div>
+            <div class="stat-value" id="encrypt-time">-</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Decryption</div>
+            <div class="stat-value" id="decrypt-time">-</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Total</div>
+            <div class="stat-value" id="total-time">-</div>
+          </div>
+        </div>
+        <div id="perf-output" class="output" style="display: none"></div>
+      </div>
+    </div>
+
+    <script type="module">
+      // Import the library functions
+      import {
+        createKeys,
+        createKeysPEM,
+        encryptWithPubKey,
+        encryptWithPubKeyPEM,
+        decryptWithPrivateKey,
+        decryptWithPrivateKeyPEM,
+      } from "https://esm.sh/asymmetric-cryptography-data-exchange-utils";
+
+      // Global variables to store key pairs
+      let cryptoKeyPair = null;
+      let pemKeyPair = null;
+
+      // Utility functions
+      function updateStatus(elementId, status, text = null) {
+        const element = document.getElementById(elementId);
+        element.className = `status ${status}`;
+        if (text) element.textContent = text;
+      }
+
+      function showOutput(elementId, content) {
+        const element = document.getElementById(elementId);
+        element.textContent = content;
+        element.style.display = "block";
+      }
+
+      function log(elementId, message) {
+        const element = document.getElementById(elementId);
+        element.textContent += message + "\n";
+        element.style.display = "block";
+      }
+
+      // Check Web Crypto API availability
+      function checkWebCryptoSupport() {
+        const isSupported =
+          typeof crypto !== "undefined" &&
+          typeof crypto.subtle !== "undefined" &&
+          typeof crypto.subtle.generateKey === "function";
+
+        console.log(
+          "🔍 Web Crypto API Support:",
+          isSupported ? "✅ Available" : "❌ Not Available"
+        );
+        console.log("🌐 Browser:", navigator.userAgent.split(" ").pop());
+
+        return isSupported;
+      }
+
+      // Key Generation Demo
+      window.runKeyGeneration = async function () {
+        const btn = document.getElementById("keygen-btn");
+        btn.disabled = true;
+        updateStatus("keygen-status", "pending", "Generating...");
+
+        try {
+          const startTime = performance.now();
+
+          log("keygen-output", "🔐 Starting key generation...");
+          log("keygen-output", "");
+
+          // Generate CryptoKey pair
+          log("keygen-output", "1. Generating CryptoKey pair (2048-bit)...");
+          cryptoKeyPair = await createKeys(2048);
+
+          log("keygen-output", `✅ CryptoKey pair generated:`);
+          log(
+            "keygen-output",
+            `   - Public key type: ${cryptoKeyPair.publicKey.type}`
+          );
+          log(
+            "keygen-output",
+            `   - Algorithm: ${cryptoKeyPair.publicKey.algorithm.name}`
+          );
+          log(
+            "keygen-output",
+            `   - Key size: ${cryptoKeyPair.publicKey.algorithm.modulusLength} bits`
+          );
+          log("keygen-output", "");
+
+          // Generate PEM pair
+          log("keygen-output", "2. Generating PEM key pair (2048-bit)...");
+          pemKeyPair = await createKeysPEM(2048);
+
+          log("keygen-output", `✅ PEM key pair generated:`);
+          log(
+            "keygen-output",
+            `   - Public key length: ${pemKeyPair.publicKey.length} chars`
+          );
+          log(
+            "keygen-output",
+            `   - Private key length: ${pemKeyPair.privateKey.length} chars`
+          );
+          log(
+            "keygen-output",
+            `   - Public key preview: ${pemKeyPair.publicKey.substring(
+              0,
+              50
+            )}...`
+          );
+
+          const endTime = performance.now();
+          log("keygen-output", "");
+          log(
+            "keygen-output",
+            `⚡ Key generation completed in ${(endTime - startTime).toFixed(
+              2
+            )}ms`
+          );
+
+          updateStatus("keygen-status", "success", "Complete");
+
+          // Enable other demos
+          document.getElementById("cryptokey-btn").disabled = false;
+          document.getElementById("pem-btn").disabled = false;
+          document.getElementById("perf-btn").disabled = false;
+        } catch (error) {
+          log("keygen-output", `❌ Error: ${error.message}`);
+          updateStatus("keygen-status", "error", "Failed");
+        } finally {
+          btn.disabled = false;
+        }
+      };
+
+      // CryptoKey Demo
+      window.runCryptoKeyDemo = async function () {
+        const btn = document.getElementById("cryptokey-btn");
+        btn.disabled = true;
+        updateStatus("cryptokey-status", "pending", "Testing...");
+
+        try {
+          const message =
+            "Hello from the browser! 🌐 This message was encrypted using CryptoKey API.";
+
+          log("cryptokey-output", "🔒 CryptoKey API Encryption Demo");
+          log("cryptokey-output", "");
+          log("cryptokey-output", `📝 Original message:`);
+          log("cryptokey-output", `   "${message}"`);
+          log("cryptokey-output", "");
+
+          // Encrypt
+          const startEncrypt = performance.now();
+          const encrypted = await encryptWithPubKey(
+            message,
+            cryptoKeyPair.publicKey
+          );
+          const encryptTime = performance.now() - startEncrypt;
+
+          log("cryptokey-output", `🔐 Encrypted with public key:`);
+          log(
+            "cryptokey-output",
+            `   - Data type: ${encrypted.data.constructor.name}`
+          );
+          log(
+            "cryptokey-output",
+            `   - Size: ${encrypted.data.byteLength} bytes`
+          );
+          log("cryptokey-output", `   - Time: ${encryptTime.toFixed(2)}ms`);
+          log("cryptokey-output", "");
+
+          // Decrypt
+          const startDecrypt = performance.now();
+          const decrypted = await decryptWithPrivateKey(
+            encrypted,
+            cryptoKeyPair.privateKey
+          );
+          const decryptTime = performance.now() - startDecrypt;
+
+          log("cryptokey-output", `🔓 Decrypted with private key:`);
+          log("cryptokey-output", `   "${decrypted}"`);
+          log("cryptokey-output", `   - Time: ${decryptTime.toFixed(2)}ms`);
+          log("cryptokey-output", "");
+
+          const isMatch = message === decrypted;
+          log(
+            "cryptokey-output",
+            `✅ Verification: ${isMatch ? "SUCCESS" : "FAILED"}`
+          );
+
+          if (isMatch) {
+            updateStatus("cryptokey-status", "success", "Success");
+          } else {
+            updateStatus("cryptokey-status", "error", "Failed");
+          }
+        } catch (error) {
+          log("cryptokey-output", `❌ Error: ${error.message}`);
+          updateStatus("cryptokey-status", "error", "Failed");
+        } finally {
+          btn.disabled = false;
+        }
+      };
+
+      // PEM Demo
+      window.runPEMDemo = async function () {
+        const btn = document.getElementById("pem-btn");
+        btn.disabled = true;
+        updateStatus("pem-status", "pending", "Testing...");
+
+        try {
+          const message =
+            "Hello from PEM API! 📜 This demonstrates browser compatibility with PEM strings.";
+
+          log("pem-output", "📜 PEM API Encryption Demo");
+          log("pem-output", "");
+          log("pem-output", `📝 Original message:`);
+          log("pem-output", `   "${message}"`);
+          log("pem-output", "");
+
+          // Encrypt
+          const startEncrypt = performance.now();
+          const encrypted = await encryptWithPubKeyPEM(
+            message,
+            pemKeyPair.publicKey
+          );
+          const encryptTime = performance.now() - startEncrypt;
+
+          log("pem-output", `🔐 Encrypted with PEM public key:`);
+          log("pem-output", `   - Encoding: ${encrypted.encoding}`);
+          log("pem-output", `   - Size: ${encrypted.data.length} chars`);
+          log(
+            "pem-output",
+            `   - Preview: ${encrypted.data.substring(0, 50)}...`
+          );
+          log("pem-output", `   - Time: ${encryptTime.toFixed(2)}ms`);
+          log("pem-output", "");
+
+          // Decrypt
+          const startDecrypt = performance.now();
+          const decrypted = await decryptWithPrivateKeyPEM(
+            encrypted,
+            pemKeyPair.privateKey
+          );
+          const decryptTime = performance.now() - startDecrypt;
+
+          log("pem-output", `🔓 Decrypted with PEM private key:`);
+          log("pem-output", `   "${decrypted}"`);
+          log("pem-output", `   - Time: ${decryptTime.toFixed(2)}ms`);
+          log("pem-output", "");
+
+          const isMatch = message === decrypted;
+          log(
+            "pem-output",
+            `✅ Verification: ${isMatch ? "SUCCESS" : "FAILED"}`
+          );
+
+          if (isMatch) {
+            updateStatus("pem-status", "success", "Success");
+          } else {
+            updateStatus("pem-status", "error", "Failed");
+          }
+        } catch (error) {
+          log("pem-output", `❌ Error: ${error.message}`);
+          updateStatus("pem-status", "error", "Failed");
+        } finally {
+          btn.disabled = false;
+        }
+      };
+
+      // Performance Test
+      window.runPerformanceTest = async function () {
+        const btn = document.getElementById("perf-btn");
+        btn.disabled = true;
+        updateStatus("perf-status", "pending", "Testing...");
+
+        try {
+          const iterations = 5;
+          const message =
+            "Performance test message for benchmarking encryption/decryption speed.";
+
+          log("perf-output", `⚡ Performance Test (${iterations} iterations)`);
+          log("perf-output", "");
+
+          let totalKeyGen = 0;
+          let totalEncrypt = 0;
+          let totalDecrypt = 0;
+
+          for (let i = 0; i < iterations; i++) {
+            log("perf-output", `🔄 Iteration ${i + 1}/${iterations}`);
+
+            // Key generation
+            const keyStart = performance.now();
+            const testKeyPair = await createKeys(2048);
+            const keyTime = performance.now() - keyStart;
+            totalKeyGen += keyTime;
+
+            // Encryption
+            const encStart = performance.now();
+            const encrypted = await encryptWithPubKey(
+              message,
+              testKeyPair.publicKey
+            );
+            const encTime = performance.now() - encStart;
+            totalEncrypt += encTime;
+
+            // Decryption
+            const decStart = performance.now();
+            const decrypted = await decryptWithPrivateKey(
+              encrypted,
+              testKeyPair.privateKey
+            );
+            const decTime = performance.now() - decStart;
+            totalDecrypt += decTime;
+
+            log(
+              "perf-output",
+              `   Key: ${keyTime.toFixed(1)}ms, Enc: ${encTime.toFixed(
+                1
+              )}ms, Dec: ${decTime.toFixed(1)}ms`
+            );
+          }
+
+          const avgKeyGen = totalKeyGen / iterations;
+          const avgEncrypt = totalEncrypt / iterations;
+          const avgDecrypt = totalDecrypt / iterations;
+          const avgTotal = avgKeyGen + avgEncrypt + avgDecrypt;
+
+          log("perf-output", "");
+          log("perf-output", "📊 Average Results:");
+          log("perf-output", `   Key Generation: ${avgKeyGen.toFixed(2)}ms`);
+          log("perf-output", `   Encryption: ${avgEncrypt.toFixed(2)}ms`);
+          log("perf-output", `   Decryption: ${avgDecrypt.toFixed(2)}ms`);
+          log("perf-output", `   Total: ${avgTotal.toFixed(2)}ms`);
+
+          // Update stats display
+          document.getElementById(
+            "keygen-time"
+          ).textContent = `${avgKeyGen.toFixed(1)}ms`;
+          document.getElementById(
+            "encrypt-time"
+          ).textContent = `${avgEncrypt.toFixed(1)}ms`;
+          document.getElementById(
+            "decrypt-time"
+          ).textContent = `${avgDecrypt.toFixed(1)}ms`;
+          document.getElementById(
+            "total-time"
+          ).textContent = `${avgTotal.toFixed(1)}ms`;
+          document.getElementById("perf-stats").style.display = "grid";
+
+          updateStatus("perf-status", "success", "Complete");
+        } catch (error) {
+          log("perf-output", `❌ Error: ${error.message}`);
+          updateStatus("perf-status", "error", "Failed");
+        } finally {
+          btn.disabled = false;
+        }
+      };
+
+      // Initialize
+      console.log("🚀 Universal Asymmetric Cryptography - Browser Demo");
+      console.log("🔗 Library loaded successfully");
+
+      if (checkWebCryptoSupport()) {
+        console.log("✨ Ready to test cryptographic operations!");
+      } else {
+        console.error("❌ Web Crypto API not supported in this browser");
+        alert(
+          "Web Crypto API is not supported in this browser. Please use a modern browser."
+        );
+      }
+    </script>
+  </body>
+</html>

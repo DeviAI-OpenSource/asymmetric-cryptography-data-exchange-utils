@@ -1,0 +1,58 @@
+{
+  "name": "asymmetric-cryptography-data-exchange-utils",
+  "version": "1.0.0",
+  "description": "A clean, modern asymmetric cryptography library using Web Crypto API - universally compatible with Node.js, browsers, Cloudflare Workers, Deno, and Bun",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "example": "tsx examples/basic-usage.ts"
+  },
+  "keywords": [
+    "cryptography",
+    "asymmetric",
+    "encryption",
+    "rsa",
+    "crypto",
+    "security",
+    "data-exchange",
+    "web-crypto",
+    "universal",
+    "cloudflare-workers",
+    "browser",
+    "deno",
+    "bun",
+    "cross-platform",
+    "modern",
+    "clean-api"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.1.0",
+    "jest": "^30.0.5",
+    "ts-jest": "^29.4.0",
+    "tsup": "^8.5.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

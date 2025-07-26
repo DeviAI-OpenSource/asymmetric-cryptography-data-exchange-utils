@@ -1,0 +1,87 @@
+# Source files (only dist/ should be published)
+src/
+tsconfig.json
+tsup.config.ts
+
+# Tests and coverage
+__tests__/
+*.test.ts
+*.test.js
+*.spec.ts
+*.spec.js
+coverage/
+jest.config.js
+
+# Examples and documentation
+examples/
+PUBLISH.md
+
+# Development dependencies and configuration
+node_modules/
+.git/
+.gitignore
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Cache directories
+.npm
+.eslintcache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Build artifacts (keep only dist/)
+build/
+lib/
+out/
+
+# Temporary folders
+tmp/
+temp/
+
+# Package files
+*.tgz
+
+# Yarn
+.yarn-integrity
+yarn.lock
+
+# Optional npm cache directory
+.npm
+
+# TypeScript cache
+*.tsbuildinfo 
