@@ -1,6 +1,6 @@
 {
   "name": "asymmetric-cryptography-data-exchange-utils",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A clean, modern asymmetric cryptography library using Web Crypto API - universally compatible with Node.js, browsers, Cloudflare Workers, Deno, and Bun",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
