@@ -1,6 +1,6 @@
 {
   "name": "asymmetric-cryptography-data-exchange-utils",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A clean, modern asymmetric cryptography library using Web Crypto API - universally compatible with Node.js, browsers, Cloudflare Workers, Deno, and Bun",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -41,7 +41,7 @@
     "modern",
     "clean-api"
   ],
-  "author": "",
+  "author": "Tuhin Kanti Pal <tuhin@ddevi.com>",
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^30.0.0",
@@ -54,5 +54,13 @@
   },
   "engines": {
     "node": ">=16.0.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DeviAI-OpenSource/asymmetric-cryptography-data-exchange-utils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DeviAI-OpenSource/asymmetric-cryptography-data-exchange-utils/issues"
+  },
+  "homepage": "https://github.com/DeviAI-OpenSource/asymmetric-cryptography-data-exchange-utils#readme"
 }
